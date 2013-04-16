@@ -1,130 +1,9 @@
 #include <iostream>
+#include "polinom.h"
 
 using namespace std;
-class Polinom
-{
-private:
-    int power; // степень полинома
-    double *coefficient;     // массив коэффициентов
 
-public:
-    Polinom();
-    ~Polinom();
-    Polinom(const Polinom& org);
-    friend ostream& operator<<(ostream &out, const Polinom &coef);
-    friend ostream& operator>>(ostream &in, Polinom &coef);
-    Polinom operator*(Polinom &);
-    Polinom operator+(Polinom &);
-    Polinom& operator=(Polinom&);
-    Polinom
-};
-
-Polinom::Polinom():
-    coefficient(0)
-{
-    coefficient=new double[power];
-}
-
-Polinom::~Polinom()
-{
-    delete [] coefficient;
-}
-
-Polinom::Polinom(const Polinom &org):
-    power(org.power),coefficient(0)
-{
-    coefficient=new double[power];
-    for(int i=power; i>=0; --i)
-        coefficient[i]=org.coefficient[i];
-}
-
-ostream& operator<<(ostream &out, const Polinom &coef)
-{
-    for(int i=coef.power; i>=0; --i)
-    {
-        switch(i)
-        {
-        case 0:
-            out<<coef.coefficient[i];
-            break;
-        case 1:
-            out<<coef.coefficient[i]<<"x"<<"+";
-            break;
-        default:
-            out<<coef.coefficient[i]<<"x^"<<i<<"+";
-            break;
-        }
-    }
-    out<<"\n";
-    return out;
-}
-
-Polinom &Polinom::operator=(Polinom &org)
-{
-    if(this==&org) return *this;
-    delete [] coefficient;
-    power=org.power;
-    coefficient=new double[power];
-    for(int i=0; i<power; ++i)
-        coefficient[i]=org.coefficient[i];
-        return *this;
-}
-
-ostream& operator>>(ostream &in, Polinom &coef)
-{
-    for(int i=coef.power; i>=0; --i)
-    {
-        cout<<"x^"<<i<<":";
-        cin>>coef.coefficient[i];
-    }
-    return in;
-}
-
-Polinom Polinom::operator+(Polinom& add)
-{
-    Polinom temp;
-    coefficient=new double[power+1];
-    if(power==add.power)
-    {
-
-        for(int i=add.power; i>=0; i--)
-            temp.coefficient[i]=coefficient[i]+add.coefficient[i];
-        return temp;
-    }
-    if(power<add.power)
-    {
-
-        for(int i=power; i>=0; i--)
-            temp.coefficient[i]=coefficient[i]+add.coefficient[i];
-        for(int i=add.power; i>=power+1; i--)
-            temp.coefficient[i]=add.coefficient[i];
-        return temp;
-    }
-    if(power>add.power)
-    {
-
-        for(int i=add.power; i>=0; i--)
-            temp.coefficient[i]=coefficient[i]+add.coefficient[i];
-        for(int i=power; i>=add.power+1; i--)
-            temp.coefficient[i]=coefficient[i];
-        return temp;
-    }
-    return *this;
-}
-
-Polinom Polinom::operator*(Polinom& a)
-{
-    Polinom temp;
-    temp.power=power+a.power;
-    temp.coefficient=new double[temp.power+1];
-    for(int i=power; i>=0; --i)
-        for(int j=a.power; j>=0; --j)
-            temp.coefficient[i+j]+=coefficient[i]*a.coefficient[j];
-    return temp;
-
-}
-
-double addition ( double *coefficient1,double *coefficient2, int power1, int power2, double *sum)
+/*double addition ( double *coefficient1,double *coefficient2, int power1, int power2, double *sum)
 {
     int i, j;
     if(power1>power2)
@@ -191,12 +70,12 @@ double multiplication(double *coefficient1, double *coefficient2, int power1,int
         for(int j=power2; j>=0; --j)
             coefficient[i+j]+=coefficient1[i]*coefficient2[j];
     return *coefficient;
-}
+}*/
 
 int main()
 {
-/*
-    int power1;
+
+    /*int power1;
     int power2;
     cout<<"Введите степень полинома"<<endl;
     cin>>power1;
@@ -242,12 +121,22 @@ int main()
     delete [] coefficient1;
     delete [] coefficient2;
     delete [] coefficient3;
+
+
+
     */
-
-
-
-
-
+    Polinom a(2);
+    cin>>a;
+    cout<<a;
+    Polinom b(3);
+    cin>>b;
+    cout<<b;
+   Polinom c(5);
+    c=a*b;
+    cout<<c;
+    cout<<endl;
+   c.derivative(c);
+   cout<<c;
     return 0;
 }
 
