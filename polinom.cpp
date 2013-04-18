@@ -1,21 +1,17 @@
 #include "polinom.h"
 
-Polinom::Polinom():
-    power(0), coefficient(0)
-{
-    double *coefficient=NULL;
-    coefficient= new double[power+1];
-};
 
 Polinom::Polinom(int a):
     power(a), coefficient(0)
 {
+    coefficient=NULL;
     coefficient=new double[power+1];
 };
 
 Polinom::~Polinom()
 {
     delete [] coefficient;
+    coefficient=0;
 }
 
 Polinom::Polinom(const Polinom &org):
@@ -33,19 +29,17 @@ Polinom &Polinom::operator=(const Polinom &org)
     delete [] coefficient;
     power=org.power;
     coefficient=new double[power+1];
-    for(int i=0; i<power; ++i)
+    for(int i=0; i<=power; ++i)
         coefficient[i]=org.coefficient[i];
     return *this;
 }
 
-Polinom Polinom::operator+(const Polinom& add)
+Polinom Polinom::operator+(const Polinom &add)
 {
-    Polinom temp;
-
-    coefficient=new double[power];
+    Polinom temp(power);
     if(power==add.power)
     {
-        for(int i=add.power; i>=0; i--)
+        for(int i=add.power; i>=0; --i)
             temp.coefficient[i]=coefficient[i]+add.coefficient[i];
         return temp;
     }
@@ -53,7 +47,7 @@ Polinom Polinom::operator+(const Polinom& add)
     {
         for(int i=power; i>=0; i--)
             temp.coefficient[i]=coefficient[i]+add.coefficient[i];
-        for(int i=add.power; i>=power+1; i--)
+        for(int i=add.power; i>=power+1; --i)
             temp.coefficient[i]=add.coefficient[i];
         return temp;
     }
@@ -61,14 +55,14 @@ Polinom Polinom::operator+(const Polinom& add)
     {
         for(int i=add.power; i>=0; i--)
             temp.coefficient[i]=coefficient[i]+add.coefficient[i];
-        for(int i=power; i>=add.power+1; i--)
+        for(int i=power; i>=add.power+1; --i)
             temp.coefficient[i]=coefficient[i];
         return temp;
     }
     return *this;
 }
 
-Polinom Polinom::operator*(Polinom& a)
+Polinom Polinom::operator*(const Polinom& a)
 {
     Polinom temp(power+a.power);
     for(int i=power; i>=0; --i)
@@ -77,20 +71,33 @@ Polinom Polinom::operator*(Polinom& a)
     return temp;
 
 }
-Polinom Polinom::derivative(Polinom temp)
+Polinom &Polinom::derivative(Polinom temp)
 {
-    Polinom result;
-    int  k=power;
-    result.coefficient=new double[k+1];
-    int j=power;
-    for ( int i=power-1; i>=0; --i)
+    Polinom result(power);
+    int  k=temp.power;
+    int j=temp.power;
+    temp.coefficient=new double[k+1];
+
+    for ( int i=temp.power-1; i>=0; --i)
     {
-        result.coefficient[i]=temp.coefficient[j]*j;
+        temp.coefficient[i]=temp.coefficient[j]*j;
         --j ;
 
     }
     return result;
 }
+
+/*double derivative ( double *coefficient, int power, double *temp )
+{
+    int k=power;
+    int j=power;
+    for (int i=k-1; i>=0; --i)
+    {
+        temp[i]=coefficient[j]*j;
+        --j ;
+    }
+    return *temp;
+}*/
 
 
 

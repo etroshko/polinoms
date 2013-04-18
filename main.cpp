@@ -125,18 +125,27 @@ int main()
 
 
     */
-    Polinom a(2);
+    Polinom a(1);
     cin>>a;
     cout<<a;
-    Polinom b(3);
+    Polinom b(1);
     cin>>b;
     cout<<b;
-   Polinom c(5);
+   Polinom c(2);
+    std::cout<<"Произведение ";
     c=a*b;
     cout<<c;
     cout<<endl;
-   c.derivative(c);
-   cout<<c;
+    Polinom d(1);
+    d=a+b;
+    std::cout<<"Сумма ";
+    cout<<d;
+    Polinom e(2);
+    e.derivative(e);
+cin>>e;
+    cout<<e;
+   std::cout<<"Производная ";
+   cout<<e;
     return 0;
 }
 

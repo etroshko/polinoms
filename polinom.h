@@ -10,14 +10,14 @@ private:
     double *coefficient;     // массив коэффициентов
 
 public:
-    Polinom();
-    Polinom (int a);
+
+    explicit Polinom (int a);
     ~Polinom();
     Polinom(const Polinom &org);
-    Polinom operator*(Polinom &org);
+    Polinom operator*(const Polinom &org);
     Polinom operator+(const Polinom &org);
     Polinom & operator=(const Polinom &org);
-    Polinom derivative(Polinom temp);
+    Polinom &derivative(Polinom temp);
 
     friend std::istream &operator >> (std::istream &in, const Polinom &org);
     friend std::ostream &operator << (std::ostream &out, const Polinom &org);
