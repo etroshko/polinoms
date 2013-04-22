@@ -1,6 +1,5 @@
 #include "polinom.h"
 
-
 Polinom::Polinom(int a):
     power(a), coefficient(0)
 {
@@ -71,35 +70,6 @@ Polinom Polinom::operator*(const Polinom& a)
     return temp;
 
 }
-Polinom &Polinom::derivative(Polinom temp)
-{
-    Polinom result(power);
-    int  k=temp.power;
-    int j=temp.power;
-    temp.coefficient=new double[k+1];
-
-    for ( int i=temp.power-1; i>=0; --i)
-    {
-        temp.coefficient[i]=temp.coefficient[j]*j;
-        --j ;
-
-    }
-    return result;
-}
-
-/*double derivative ( double *coefficient, int power, double *temp )
-{
-    int k=power;
-    int j=power;
-    for (int i=k-1; i>=0; --i)
-    {
-        temp[i]=coefficient[j]*j;
-        --j ;
-    }
-    return *temp;
-}*/
-
-
 
 std::ostream& operator<<(std::ostream &out, const Polinom &coef)
 {
@@ -132,4 +102,26 @@ std::istream& operator>>(std::istream &in, const Polinom &coef)
     return in;
 }
 
+Polinom Polinom::derivative(const Polinom &org)
+{
+    Polinom temp(power-1);
+    int j=power;
+    for (int i=power-1; i>=0; --i)
+    {
+        temp.coefficient[i]=org.coefficient[j]*j;
+        --j ;
+    }
+    return temp;
+}
 
+Polinom Polinom::integral (const Polinom &org)
+{
+    Polinom temp(power+1);
+    int j=power;
+    for (int i=power+1; i>0; --i)
+    {
+        temp.coefficient[i]=org.coefficient[j]/(j+1);
+        --j ;
+    }
+    return temp;
+}
